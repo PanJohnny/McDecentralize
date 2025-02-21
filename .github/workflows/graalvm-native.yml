@@ -21,11 +21,21 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Build with GraalVM
         run: mvn package
+      - name: Rename binary based on OS
+        run: |
+           if [[ "${{ matrix.os }}" == "macos-latest" ]]; then
+             mv target/mcdec target/mcdec-apple
+           elif [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
+             mv target/mcdec target/mcdec-linux
+           elif [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+             mv target/mcdec.exe target/mcdec-windows.exe
+           fi
+        shell: bash
       - name: Upload binary
         uses: actions/upload-artifact@v4
         with:
           name: mcdec-${{ matrix.os }}
-          path: target/mcdec*
+          path: target/mcdec-*
 
   release:
     name: Release binaries
