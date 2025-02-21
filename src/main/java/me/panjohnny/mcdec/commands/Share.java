@@ -5,6 +5,7 @@ import me.panjohnny.mcdec.McDecentralize;
 import me.panjohnny.mcdec.server.ServerExecutor;
 import me.panjohnny.mcdec.sync.SyncProvider;
 import me.panjohnny.mcdec.sync.SyncProviders;
+import me.panjohnny.mcdec.util.GZIPUtil;
 import me.panjohnny.mcdec.util.TerminalWrapper;
 import org.jline.utils.AttributedStyle;
 import picocli.CommandLine;
@@ -16,6 +17,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Base64;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.Callable;
@@ -41,6 +43,17 @@ public class Share implements Callable<Integer> {
             return 1;
         }
 
+        if (terminal.confirm("Do you want to sync to the remote before sharing? (y/n) ")) {
+            SyncProvider syncProvider = SyncProviders.createFromConfig(configurator);
+            if (syncProvider != null) {
+                syncProvider.syncUp(configurator);
+            } else {
+                terminal.println("No sync provider selected.", AttributedStyle.DEFAULT.foreground(AttributedStyle.RED));
+                terminal.flush();
+                return 1;
+            }
+        }
+
         Properties copy = (Properties) configurator.getProperties().clone();
         terminal.println("Removing run configuration is useful if the server is not running on your machine.");
         if (terminal.confirm("Do you want to remove the run configuration? (y/n) ")) {
@@ -57,16 +70,9 @@ public class Share implements Callable<Integer> {
         // Load the mods file, gzip it and set the mods property to the base64 encoded string
         File modsFile = new File(McDecentralize.path("mods.txt"));
         if (modsFile.exists()) {
-            terminal.println("Loading mods file...");
             String mods = Files.readString(modsFile.toPath());
 
-            terminal.println("Compressing mods file...");
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            GZIPOutputStream gzip = new GZIPOutputStream(baos);
-            gzip.write(mods.getBytes());
-            gzip.close();
-            var base64 = Base64.getEncoder().encode(baos.toByteArray());
-            copy.setProperty("mods", new String(base64));
+            copy.setProperty("mods", GZIPUtil.compress(mods.getBytes()));
             terminal.println("Mods file loaded and compressed.", AttributedStyle.DEFAULT.foreground(AttributedStyle.GREEN));
         }
 

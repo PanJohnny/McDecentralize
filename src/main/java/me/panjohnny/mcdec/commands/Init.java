@@ -5,17 +5,15 @@ import me.panjohnny.mcdec.McDecentralize;
 import me.panjohnny.mcdec.server.ServerManager;
 import me.panjohnny.mcdec.sync.SyncProvider;
 import me.panjohnny.mcdec.sync.SyncProviders;
+import me.panjohnny.mcdec.util.GZIPUtil;
 import me.panjohnny.mcdec.util.TerminalWrapper;
 import org.jline.utils.AttributedStyle;
 import picocli.CommandLine;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.Base64;
 import java.util.Objects;
 import java.util.concurrent.Callable;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 
 @CommandLine.Command(name = "init", description = "Initialize the server. This command is used after downloading decentralize.properties or when the server is not set up yet.")
 public class Init implements Callable<Integer> {
@@ -114,18 +112,16 @@ public class Init implements Callable<Integer> {
         terminal.println("5. Download mods", AttributedStyle.DEFAULT.foreground(AttributedStyle.BLUE));
         terminal.println("Mod download links should be placed inside mods.txt file.", AttributedStyle.DEFAULT.foreground(AttributedStyle.BRIGHT));
 
+        terminal.flush();
         // Check if mods field is set, if yes ungzip it and write it to mods.txt
         if (configurator.hasProperty("mods")) {
-            Base64.Decoder decoder = Base64.getDecoder();
-            byte[] decoded = decoder.decode(configurator.getProperty("mods"));
-
-            GZIPInputStream gzip = new GZIPInputStream(new java.io.ByteArrayInputStream(decoded));
-            GZIPOutputStream out = new GZIPOutputStream(new FileOutputStream(McDecentralize.path("mods.txt")));
-
-            // Redirect the output to the file
-            gzip.transferTo(out);
-            out.close();
+            byte[] mods = GZIPUtil.decompress(configurator.getProperty("mods"));
+            File modsFile = new File(McDecentralize.path("mods.txt"));
+            try (FileOutputStream fos = new FileOutputStream(modsFile)) {
+                fos.write(mods);
+            }
             terminal.println("Mods file loaded from share and decompressed.", AttributedStyle.DEFAULT.foreground(AttributedStyle.GREEN));
+            configurator.removeProperty("mods");
         }
 
         File modsFile = new File(McDecentralize.path("mods.txt"));
@@ -143,11 +139,15 @@ public class Init implements Callable<Integer> {
 
         terminal.println();
         terminal.println("6. Remote synchronization", AttributedStyle.DEFAULT.foreground(AttributedStyle.BLUE));
-        terminal.println("Remote synchronization serves as a middle man between your server nodes. It serves as a way to synchronize files between servers.", AttributedStyle.DEFAULT.foreground(AttributedStyle.BRIGHT));
+        terminal.println("Remote synchronization serves as a middle man between your server nodes. It is as a way to synchronize files between servers.", AttributedStyle.DEFAULT.foreground(AttributedStyle.BRIGHT));
         terminal.println();
-        if (!reconfigureSync && configurator.hasProperty("sync_provider") && configurator.hasProperty("remote_name") && configurator.hasProperty("remote_path")) {
+        if (!reconfigureSync && configurator.hasProperty("sync_provider") && configurator.hasProperty("remote_path")) {
             terminal.println("Sync provider already configured.", AttributedStyle.DEFAULT.foreground(AttributedStyle.GREEN));
             String syncProvider = configurator.getProperty("sync_provider");
+            if (!configurator.hasProperty("remote_name")) {
+                terminal.println("This looks like a shared configuration. Please enter the remote name.", AttributedStyle.DEFAULT.foreground(AttributedStyle.BRIGHT));
+                configurator.setProperty("remote_name", terminal.ask("Remote name: "));
+            }
             String remoteName = configurator.getProperty("remote_name");
             String remotePath = configurator.getProperty("remote_path");
 
@@ -209,7 +209,7 @@ public class Init implements Callable<Integer> {
                 configurator.setProperty("java_xmx", xmx);
             }
 
-            if (!reconfigureRun && !configurator.hasProperty("java_xms")) {
+            if (!reconfigureRun && configurator.hasProperty("java_xms")) {
                 terminal.println("The initial heap size is set to " + configurator.getProperty("java_xms") + ".", AttributedStyle.DEFAULT.foreground(AttributedStyle.YELLOW));
             } else {
                 String xms = terminal.askDefault("Please enter the initial heap size: ", "2g");
