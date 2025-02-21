@@ -2,7 +2,9 @@ package me.panjohnny.mcdec.util;
 
 import me.panjohnny.mcdec.McDecentralize;
 
-import java.io.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Path;

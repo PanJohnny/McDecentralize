@@ -8,7 +8,6 @@ import me.panjohnny.mcdec.util.TerminalWrapper;
 import org.jline.utils.AttributedStyle;
 import picocli.CommandLine;
 
-import java.util.List;
 import java.util.concurrent.Callable;
 
 @CommandLine.Command(name = "sync", description = "Sync the server with the remote.")

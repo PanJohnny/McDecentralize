@@ -2,7 +2,6 @@ package me.panjohnny.mcdec.commands;
 
 import me.panjohnny.mcdec.Configurator;
 import me.panjohnny.mcdec.McDecentralize;
-import me.panjohnny.mcdec.server.ServerExecutor;
 import me.panjohnny.mcdec.sync.SyncProvider;
 import me.panjohnny.mcdec.sync.SyncProviders;
 import me.panjohnny.mcdec.util.GZIPUtil;
@@ -11,17 +10,12 @@ import org.jline.utils.AttributedStyle;
 import picocli.CommandLine;
 
 import java.awt.*;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.OutputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Base64;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.Callable;
-import java.util.zip.GZIPOutputStream;
 
 @CommandLine.Command(name = "share", description = "Share the configuration with your friends.")
 public class Share implements Callable<Integer> {
