@@ -1,0 +1,21 @@
+name: GraalVM build
+on: [push, pull_request]
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ macos-latest, windows-latest, ubuntu-latest ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: '23'
+          distribution: 'graalvm'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build with GraalVM
+        run: mvn package
+      - name: Upload binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: mcdec-${{ matrix.os }}
+          path: mcdec*
