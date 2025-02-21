@@ -6,9 +6,6 @@ import me.panjohnny.mcdec.commands.Share;
 import me.panjohnny.mcdec.commands.Sync;
 import picocli.CommandLine;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.concurrent.Callable;
 
@@ -38,19 +35,16 @@ public class McDecentralize implements Callable<Integer> {
         }
     }
 
-    @CommandLine.Option(names={"-c", "--config"}, description = "Explicitly specify the configuration file. Default is decentralize.properties.")
-    private File configFile = new File("decentralize.properties");
-
     public static void main(String[] args) {
         int exitCode = new CommandLine(new McDecentralize()).execute(args);
         System.exit(exitCode);
     }
 
     @Override
-    public Integer call() throws Exception {
+    public Integer call() {
         System.out.println(ART);
         System.out.println();
-        System.out.println(configFile.getAbsoluteFile());
+        new CommandLine(this).usage(System.out);
         return 0;
     }
 }
