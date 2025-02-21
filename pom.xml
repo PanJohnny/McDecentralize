@@ -47,6 +47,9 @@
                 </executions>
                 <configuration>
                     <mainClass>me.panjohnny.mcdec.McDecentralize</mainClass>
+                    <buildArgs>
+                        <arg>--enable-url-protocols=https</arg>
+                    </buildArgs>
                 </configuration>
             </plugin>
         </plugins>

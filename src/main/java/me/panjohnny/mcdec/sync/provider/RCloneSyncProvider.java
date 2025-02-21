@@ -22,27 +22,7 @@ public class RCloneSyncProvider extends SyncProvider {
         terminal.println("Syncing down from RClone...", AttributedStyle.DEFAULT.foreground(AttributedStyle.CYAN));
         terminal.flush();
         ProcessBuilder processBuilder = new ProcessBuilder("rclone", "sync", remoteName + ":" + remotePath, ".", "--progress");
-        for (String s : SyncProvider.EXCLUDE) {
-            processBuilder.command().add("--exclude");
-            processBuilder.command().add(s);
-        }
-        if (configurator.hasProperty("rclone_flags")) {
-            String[] flags = configurator.getProperty("rclone_flags").split(" ");
-            for (String flag : flags) {
-                processBuilder.command().add(flag);
-            }
-        }
-
-        if (configurator.getProperty("rclone_is_drive").equals("true")) {
-            if (configurator.getProperty("rclone_drive_shared_with_me").equals("true")) {
-                processBuilder.command().add("--drive-shared-with-me");
-            }
-        }
-        processBuilder.inheritIO();
-        processBuilder.directory(new File(McDecentralize.relativePath));
-        terminal.print("Command: ", AttributedStyle.DEFAULT.foreground(AttributedStyle.BLUE));
-        terminal.println(String.join(" ", processBuilder.command()), AttributedStyle.DEFAULT);
-        terminal.flush();
+        addFlags(configurator, processBuilder);
         try {
             Process process = processBuilder.start();
             process.waitFor();
@@ -54,16 +34,11 @@ public class RCloneSyncProvider extends SyncProvider {
         }
     }
 
-    @Override
-    public void syncUp(Configurator configurator) {
-        terminal.println("Syncing up with RClone...", AttributedStyle.DEFAULT.foreground(AttributedStyle.CYAN));
-        terminal.flush();
-        ProcessBuilder processBuilder = new ProcessBuilder("rclone", "sync", ".", remoteName + ":" + remotePath, "--progress");
+    private void addFlags(Configurator configurator, ProcessBuilder processBuilder) {
         for (String s : SyncProvider.EXCLUDE) {
             processBuilder.command().add("--exclude");
             processBuilder.command().add(s);
         }
-
         if (configurator.hasProperty("rclone_flags")) {
             String[] flags = configurator.getProperty("rclone_flags").split(" ");
             for (String flag : flags) {
@@ -76,13 +51,19 @@ public class RCloneSyncProvider extends SyncProvider {
                 processBuilder.command().add("--drive-shared-with-me");
             }
         }
-
         processBuilder.inheritIO();
         processBuilder.directory(new File(McDecentralize.relativePath));
-
         terminal.print("Command: ", AttributedStyle.DEFAULT.foreground(AttributedStyle.BLUE));
         terminal.println(String.join(" ", processBuilder.command()), AttributedStyle.DEFAULT);
         terminal.flush();
+    }
+
+    @Override
+    public void syncUp(Configurator configurator) {
+        terminal.println("Syncing up with RClone...", AttributedStyle.DEFAULT.foreground(AttributedStyle.CYAN));
+        terminal.flush();
+        ProcessBuilder processBuilder = new ProcessBuilder("rclone", "sync", ".", remoteName + ":" + remotePath, "--progress");
+        addFlags(configurator, processBuilder);
 
         try {
             Process process = processBuilder.start();

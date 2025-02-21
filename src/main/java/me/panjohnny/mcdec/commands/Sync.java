@@ -16,7 +16,7 @@ public class Sync implements Callable<Integer> {
     public String mode;
 
     @CommandLine.Option(names = {"-d", "--dir"}, description = "The directory to sync relative to the current directory.")
-    public String dir;
+    public String dir = ".";
 
 
     @Override

@@ -20,7 +20,7 @@ import java.util.concurrent.Callable;
 @CommandLine.Command(name = "share", description = "Share the configuration with your friends.")
 public class Share implements Callable<Integer> {
     @CommandLine.Option(names = {"-d", "--dir"}, description = "The directory to sync relative to the current directory.")
-    public String dir;
+    public String dir = ".";
 
 
     @Override

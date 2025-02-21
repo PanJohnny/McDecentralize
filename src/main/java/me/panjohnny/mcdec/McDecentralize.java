@@ -17,7 +17,7 @@ public class McDecentralize implements Callable<Integer> {
             |  | |___ |__/ |___ |___ |___ | \\|  |  |  \\ |  | |___ |  /__ |___
             """;
 
-    public static String relativePath = "";
+    public static String relativePath = ".";
 
     public static String path(String path) {
         if (!relativePath.isBlank()) {

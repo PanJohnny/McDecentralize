@@ -12,7 +12,7 @@ import java.util.concurrent.Callable;
 @CommandLine.Command(name = "run", description = "Runs the server based on the configuration.")
 public class Run implements Callable<Integer> {
     @CommandLine.Option(names = {"-d", "--dir"}, description = "The directory to sync relative to the current directory.")
-    public String dir;
+    public String dir = ".";
 
 
     @Override

@@ -31,7 +31,7 @@ public class ServerManager {
     public void select() {
         terminal.println("Current version only supports fabric servers.", AttributedStyle.BOLD.foreground(AttributedStyle.YELLOW));
 
-        ServerList serverList = terminal.askOptions("Please select a server technology:", SERVER_LISTS, ServerList::getName);
+        ServerList serverList = terminal.askOptions("Please select a server technology: ", SERVER_LISTS, ServerList::getName);
 
         terminal.println("Server technology selected: " + serverList.getName(), AttributedStyle.DEFAULT);
         serverList.load();
@@ -39,7 +39,7 @@ public class ServerManager {
         ServerList.ServerVersion minecraftVersion = terminal.askOptions("Please select a minecraft version: ", List.of(serverList.getMinecraftVersions()), ServerList.ServerVersion::version);
 
         ServerList.ServerVersion[] serverVersions = serverList.getServerVersions(minecraftVersion.version());
-        ServerList.ServerVersion serverVersion = terminal.askOptionsOrDefault("Please select a server version, leave blank for LTS stable:", List.of(serverVersions), ServerList.ServerVersion::version, serverVersions[0]);
+        ServerList.ServerVersion serverVersion = terminal.askOptionsOrDefault("Please select a server version, leave blank for LTS stable: ", List.of(serverVersions), ServerList.ServerVersion::version, serverVersions[0]);
 
         var serverJarURL = serverList.getServerJarURL(minecraftVersion.version(), serverVersion.version());
 

@@ -24,7 +24,7 @@ jobs:
       - name: Rename binary based on OS
         run: |
            if [[ "${{ matrix.os }}" == "macos-latest" ]]; then
-             mv target/mcdec target/mcdec-apple
+             mv target/mcdec target/mcdec-macos
            elif [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
              mv target/mcdec target/mcdec-linux
            elif [[ "${{ matrix.os }}" == "windows-latest" ]]; then
