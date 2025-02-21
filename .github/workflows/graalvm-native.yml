@@ -3,7 +3,7 @@ on:
   push:
   pull_request:
   release:
-    types: [created]  # Trigger only when a new release is created
+    types: [published]
 
 jobs:
   build:
