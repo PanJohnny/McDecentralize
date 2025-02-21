@@ -13,7 +13,7 @@ McDecentralize uses a synchronization provider in order to synchronize the serve
 - rclone installed and configured: https://rclone.org
 - java for running the Minecraft server
 
-> ![NOTE]
+> [!NOTE]
 > This project has been tested only on Linux, with rclone and Google Drive as the synchronization provider. It should work on Windows and macOS as well, but it has not been tested. Other rsync remotes should work as well.
 
 ## Setup
@@ -48,7 +48,7 @@ mvn clean package
 ```
 
 ## Usage
-> ![NOTE]
+> [!NOTE]
 > This project currently only supports fabric servers.
 ### Initializing McDecentralize in a directory
 If you want to use your existing server files, rename your server jar to `server.jar`. In a directory where the server should be located (does not have to be there, everything will be downloaded if it is not), run the following command:
@@ -56,7 +56,7 @@ If you want to use your existing server files, rename your server jar to `server
 mcdec init
 ```
 Go through the setup process and configure the synchronization provider.
-> ![NOTE]
+> [!NOTE]
 > Only rclone is supported at the moment.
 
 ### Synchronizing the server
@@ -65,7 +65,7 @@ To synchronize the server, run the following command:
 mcdec sync [up|down]
 ```
 Up is for uploading the server files to the remote storage, and down is for downloading the server files from the remote storage. Before hosting the server on another machine you need to run up on your machine and down on the other machine. This will synchronize the server files across all devices.
-> ![IMPORTANT]
+> [!IMPORTANT]
 > Synchronization can delete your local changes, make sure that you are not ahead of the remote storage (sync all the time).
 
 ### Running the server
