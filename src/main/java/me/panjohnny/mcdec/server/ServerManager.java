@@ -14,12 +14,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-public class ServerPicker {
+public class ServerManager {
     public static List<ServerList> SERVER_LISTS = List.of(new FabricServerList());
     private final Configurator config;
     private final TerminalWrapper terminal;
 
-    public ServerPicker(Configurator config) throws IOException {
+    public ServerManager(Configurator config) throws IOException {
         this.config = config;
         this.terminal = TerminalWrapper.getInstance();
     }

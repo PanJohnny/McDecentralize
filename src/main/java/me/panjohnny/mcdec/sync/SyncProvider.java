@@ -1,10 +1,9 @@
 package me.panjohnny.mcdec.sync;
 
-import me.panjohnny.mcdec.server.ServerList;
-import me.panjohnny.mcdec.server.list.FabricServerList;
-import me.panjohnny.mcdec.sync.provider.RCloneSyncProvider;
+import me.panjohnny.mcdec.Configurator;
 
-import java.util.List;
+import java.util.Optional;
+import java.util.Properties;
 
 public abstract class SyncProvider {
     public static final String[] EXCLUDE = new String[] {
@@ -25,6 +24,13 @@ public abstract class SyncProvider {
         this.remotePath = remotePath;
     }
 
-    public abstract void syncDown();
-    public abstract void syncUp();
+    public abstract void syncDown(Configurator configurator);
+    public abstract void syncUp(Configurator configurator);
+
+    public abstract void configure(Configurator configurator);
+
+    /**
+     * Changes the properties for sharing with others. If the properties are not changed, return an empty optional.
+     */
+    public abstract Optional<Properties> changeForShared(Properties properties);
 }

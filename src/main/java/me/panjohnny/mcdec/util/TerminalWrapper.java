@@ -85,7 +85,13 @@ public class TerminalWrapper {
 
 
     public boolean confirm(String question) {
-        return reader.readLine(question).equalsIgnoreCase("y");
+        var yesNo = reader.readLine(question);
+        if (yesNo.isBlank() || !yesNo.equalsIgnoreCase("y") && !yesNo.equalsIgnoreCase("n")) {
+            println("Invalid option. Try again.", AttributedStyle.DEFAULT.foreground(AttributedStyle.RED));
+            return confirm(question);
+        }
+
+        return yesNo.equalsIgnoreCase("y");
     }
 
     public void println(String message) {

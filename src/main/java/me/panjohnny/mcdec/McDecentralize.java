@@ -1,6 +1,8 @@
 package me.panjohnny.mcdec;
 
 import me.panjohnny.mcdec.commands.Init;
+import me.panjohnny.mcdec.commands.Run;
+import me.panjohnny.mcdec.commands.Share;
 import me.panjohnny.mcdec.commands.Sync;
 import picocli.CommandLine;
 
@@ -10,7 +12,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.concurrent.Callable;
 
-@CommandLine.Command(name = "mcdec", mixinStandardHelpOptions = true, version = "MCDecentralize 1.0", subcommands = {Init.class, Sync.class})
+@CommandLine.Command(name = "mcdec", mixinStandardHelpOptions = true, version = "MCDecentralize 1.0", subcommands = {Init.class, Sync.class, Run.class, Share.class})
 public class McDecentralize implements Callable<Integer> {
     public static final String ART = """
             _  _ ____ ___  ____ ____ ____ _  _ ___ ____ ____ _    _ ___  ____

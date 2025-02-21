@@ -102,4 +102,31 @@ public class Configurator {
     public String getPropertyOrDefault(String key, String defaultValue) {
         return properties.getProperty(key, defaultValue);
     }
+
+    public static Configurator loadIfPresent(String dir) throws IOException {
+        TerminalWrapper terminal = TerminalWrapper.getInstance();
+        if (dir != null) {
+            McDecentralize.relativePath = dir;
+        }
+
+        // Open config
+        Configurator configurator;
+        if (McDecentralize.relativePath.isBlank()) {
+            configurator = new Configurator();
+        } else {
+            configurator = new Configurator(McDecentralize.relativePath);
+        }
+
+        // Check if config file exists
+        if (configurator.fileExists()) {
+            configurator.load();
+            terminal.println("Config file detected.", AttributedStyle.DEFAULT.foreground(AttributedStyle.GREEN));
+            terminal.flush();
+            return configurator;
+        } else {
+            terminal.println("Config file not found.", AttributedStyle.DEFAULT.foreground(AttributedStyle.RED));
+            terminal.flush();
+            return null;
+        }
+    }
 }
