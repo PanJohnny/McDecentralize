@@ -41,7 +41,7 @@ public class McDecentralize implements Callable<Integer> {
     @CommandLine.Option(names={"-c", "--config"}, description = "Explicitly specify the configuration file. Default is decentralize.properties.")
     private File configFile = new File("decentralize.properties");
 
-    public static void main(String[] args) throws IOException, URISyntaxException {
+    public static void main(String[] args) {
         int exitCode = new CommandLine(new McDecentralize()).execute(args);
         System.exit(exitCode);
     }
