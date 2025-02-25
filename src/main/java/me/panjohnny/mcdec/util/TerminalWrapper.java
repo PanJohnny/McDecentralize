@@ -80,14 +80,15 @@ public class TerminalWrapper {
     }
 
     public String ask(String question, String... suggestions) {
-        options.clear();
         options.add(suggestions);
-        return reader.readLine(question);
+        var res = reader.readLine(question);
+        options.clear();
+        return res;
     }
 
 
     public boolean confirm(String question) {
-        var yesNo = reader.readLine(question);
+        var yesNo = ask(question);
         if (yesNo.isBlank() || !yesNo.equalsIgnoreCase("y") && !yesNo.equalsIgnoreCase("n")) {
             println("Invalid option. Try again.", AttributedStyle.DEFAULT.foreground(AttributedStyle.RED));
             return confirm(question);

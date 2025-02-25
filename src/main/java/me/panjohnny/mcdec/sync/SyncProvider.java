@@ -15,6 +15,8 @@ public abstract class SyncProvider {
             "server.jar",
             "*.log",
             "*.jar",
+            ".cache/*",
+            "decentralize.properties"
     };
 
     protected String remoteName;
