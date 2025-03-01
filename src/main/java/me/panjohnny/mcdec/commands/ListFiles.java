@@ -32,7 +32,7 @@ public class ListFiles implements Callable<Integer> {
         terminal.flush();
 
         terminal.println();
-        terminal.println("Files changed: ", AttributedStyle.DEFAULT.foreground(AttributedStyle.YELLOW));
+        terminal.println("Files changed from the last run: ", AttributedStyle.DEFAULT.foreground(AttributedStyle.YELLOW));
         serverFileManager.computeChecksums();
         serverFileManager.getChangedFiles().forEach(file -> terminal.println(file.toString()));
         terminal.flush();
