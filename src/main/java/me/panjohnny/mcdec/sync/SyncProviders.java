@@ -1,6 +1,6 @@
 package me.panjohnny.mcdec.sync;
 
-import me.panjohnny.mcdec.Configurator;
+import me.panjohnny.mcdec.config.Configurator;
 import me.panjohnny.mcdec.sync.provider.RCloneSyncProvider;
 import org.jetbrains.annotations.Nullable;
 

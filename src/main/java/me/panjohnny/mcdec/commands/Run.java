@@ -1,6 +1,6 @@
 package me.panjohnny.mcdec.commands;
 
-import me.panjohnny.mcdec.Configurator;
+import me.panjohnny.mcdec.config.Configurator;
 import me.panjohnny.mcdec.McDecentralize;
 import me.panjohnny.mcdec.server.ServerExecutor;
 import me.panjohnny.mcdec.util.TerminalWrapper;

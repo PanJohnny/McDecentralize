@@ -1,5 +1,6 @@
-package me.panjohnny.mcdec;
+package me.panjohnny.mcdec.config;
 
+import me.panjohnny.mcdec.McDecentralize;
 import me.panjohnny.mcdec.util.TerminalWrapper;
 import org.jline.utils.AttributedStyle;
 

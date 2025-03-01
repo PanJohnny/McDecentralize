@@ -1,6 +1,6 @@
 package me.panjohnny.mcdec.sync.provider;
 
-import me.panjohnny.mcdec.Configurator;
+import me.panjohnny.mcdec.config.Configurator;
 import me.panjohnny.mcdec.McDecentralize;
 import me.panjohnny.mcdec.sync.SyncProvider;
 import me.panjohnny.mcdec.util.TerminalWrapper;

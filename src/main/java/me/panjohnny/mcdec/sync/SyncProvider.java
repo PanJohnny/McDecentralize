@@ -1,6 +1,6 @@
 package me.panjohnny.mcdec.sync;
 
-import me.panjohnny.mcdec.Configurator;
+import me.panjohnny.mcdec.config.Configurator;
 
 import java.util.Optional;
 import java.util.Properties;
@@ -15,7 +15,7 @@ public abstract class SyncProvider {
             "server.jar",
             "*.log",
             "*.jar",
-            ".cache/*",
+            ".decentralize/*",
             "decentralize.properties"
     };
 

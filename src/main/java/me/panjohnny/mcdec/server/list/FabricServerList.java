@@ -59,4 +59,14 @@ public class FabricServerList extends ServerList {
 
         return "https://meta.fabricmc.net/v2/versions/loader/%s/%s/%s/server/jar".formatted(minecraftVersion, serverVersion, installerVersion);
     }
+
+    @Override
+    public String getExtensionTerminology() {
+        return "mods";
+    }
+
+    @Override
+    public String getExtensionFolder() {
+        return "mods";
+    }
 }
