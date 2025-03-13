@@ -14,7 +14,7 @@ McDecentralize uses a synchronization provider in order to synchronize the serve
 - java for running the Minecraft server
 
 > [!NOTE]
-> This project has been tested only on Linux, with rclone and Google Drive as the synchronization provider. It should work on Windows and macOS as well, but it has not been tested. Other rsync remotes should work as well.
+> This project has been tested on Linux and Windows. MacOS is supported but the native build was not tested.
 
 ## Setup
 ### On Linux/MacOS
